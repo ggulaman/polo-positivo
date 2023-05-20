@@ -1,7 +1,6 @@
 import * as React from "react";
 import PropaneIcon from "@mui/icons-material/Propane";
 import SolarPower from "@mui/icons-material/SolarPower";
-import SettingsIcon from "@mui/icons-material/Settings";
 import PriceCheck from "@mui/icons-material/PriceCheck";
 
 export const userNavItems = [

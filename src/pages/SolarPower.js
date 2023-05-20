@@ -15,7 +15,7 @@ const months = [
   'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
 ];
 
-const mountinPositionOptions = ['Anclaje libre', 'Integradas al Tejado'];
+const mountingPositionOptions = ['Anclaje libre', 'Integradas al Tejado'];
 
 const SolarPower = () => {
   const [isLoading, setIsLoading] = useState(false)
@@ -27,7 +27,7 @@ const SolarPower = () => {
   const [loss, setLoss] = useState(14)
   const [slope, setSlope] = useState(35)
   const [azimut, setAzimit] = useState(1)
-  const [fixType, setFixType] = useState(mountinPositionOptions[0])
+  const [fixType, setFixType] = useState(mountingPositionOptions[0])
   const [optSlope, setOptSlope] = useState(false)
   const [optSlopeAndAzimut, setOptSlopeAndAzimut] = useState(false)
   const [isLatitudError, setIsLatitudError] = useState(false)
@@ -160,7 +160,7 @@ const SolarPower = () => {
           value={fixType}
           defaultValue={fixType}
           handleChange={event => setFixType(event.target.value)}
-          items={mountinPositionOptions}
+          items={mountingPositionOptions}
           disabled={false}
         />
       </Box>

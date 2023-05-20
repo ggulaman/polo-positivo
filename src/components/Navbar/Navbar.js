@@ -16,8 +16,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { userNavItems, adminNavItems } from "./NavbarItems";
-//import WalletButton from "../WalletButton/WalletButton";
+import { userNavItems } from "./NavbarItems";
 import { navbarStyles } from "./styles";
 
 const drawerWidth = 240;
