@@ -37,7 +37,7 @@ const SolarPower = () => {
   const [isSlopeError, setIsSlopeError] = useState(false)
   const [isAzimutError, setIsAzimutError] = useState(false)
   const fetchResultsData = () => {
-    fetch(`/api/v5_2/PVcalc?outputformat=json&lat=${latitud}&lon=${longitud}&raddatabase=PVGIS-SARAH2&browser=0&peakpower=${peakPower}&loss=${loss}&mountingplace=${fixType === 'Anclaje libre' ? 'free' : 'building'}&pvtechchoice=crystSi&${optSlopeAndAzimut ? 'optimalangles=1' : optSlope ? `optimalinclination=1&aspect=${azimut}` : `angle=${slope}&aspect=${azimut}`}&usehorizon=1&userhorizon=&js=1`, {
+    fetch(`https://re.jrc.ec.europa.eu/api/v5_2/PVcalc?outputformat=json&lat=${latitud}&lon=${longitud}&raddatabase=PVGIS-SARAH2&browser=0&peakpower=${peakPower}&loss=${loss}&mountingplace=${fixType === 'Anclaje libre' ? 'free' : 'building'}&pvtechchoice=crystSi&${optSlopeAndAzimut ? 'optimalangles=1' : optSlope ? `optimalinclination=1&aspect=${azimut}` : `angle=${slope}&aspect=${azimut}`}&usehorizon=1&userhorizon=&js=1`, {
       "method": "GET"
     }
     )
