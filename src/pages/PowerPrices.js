@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import CommonChartBar from "../components/common/CommonChartBar/CommonChartBar";
 import CommonPaper from "../components/common/CommonPaper/CommonPaper";
-
+//https://apidatos.ree.es/es/datos/mercados/precios-mercados-tiempo-real?start_date=2023-05-22T00:00&end_date=2023-05-22T23:59&time_trunc=hour
 export const PowerPrices = () => {
   const [getPrices, setPrices] = useState(null);
   const fetchPrices = () => {

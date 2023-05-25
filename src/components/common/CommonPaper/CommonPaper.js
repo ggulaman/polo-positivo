@@ -15,7 +15,7 @@ const CommonPaper = ({ title, children }) => {
           //height: 300,
         }}
       >
-        <Box sx={{ color: "text.secondary", mb: 5, fontWeight: "bold" }}>{title}</Box>
+        <Box sx={{ color: "#1976d2", mb: 5, fontWeight: "bold" }}>{title}</Box>
         {children}
       </Paper>
     </Box>
