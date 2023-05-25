@@ -8,9 +8,9 @@ import CommonInput from '../components/common/CommonInput/CommonInput';
 const technologyTypes = ['PEM', 'Alcalina', 'SOEC'];
 
 const Hydrogen = () => {
-  const [energyPrice, setEnergyPrice] = useState(null)
-  const [renFactor, setRenFactor] = useState(null)
-  const [gridPrice, setGridPrice] = useState(null)
+  const [energyPrice,] = useState(null)
+  const [renFactor,] = useState(null)
+  const [gridPrice,] = useState(null)
 
 
   const EmisionEstimation = () =>
