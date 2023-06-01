@@ -16,7 +16,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { userNavItems } from "./NavbarItems";
+import { userNavItemsTop, userNavItemsBottom } from "./NavbarItems";
 import { navbarStyles } from "./styles";
 
 const drawerWidth = 240;
@@ -155,9 +155,14 @@ const NavBar = () => {
             <ListItemText primary={'Build'}  sx={ open ? navbarStyles.ListItemTextOpen : navbarStyles.ListItemTextClose } />
           </ListItem>  */}
 
-          {navItems(userNavItems,)}
+          {navItems(userNavItemsTop,)}
         </List>
         <Divider sx={navbarStyles.divider} />
+        <List component="nav">
+
+
+          {navItems(userNavItemsBottom,)}
+        </List>
       </Drawer>
     </Box>
   );

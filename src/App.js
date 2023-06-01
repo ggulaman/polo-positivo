@@ -7,9 +7,7 @@ import {
 import { ThemeProvider } from "@mui/material/styles";
 import PoloApp from "./PoloApp";
 
-import Hydrogen from "./pages/Hydrogen";
-import SolarPower from "./pages/SolarPower";
-import { PowerPrices } from "./pages/PowerPrices";
+import { PowerPrices, SolarPower, Hydrogen } from "./pages";
 import { dashboardTheme } from "./dashboardTheme";
 
 const App = () => {
@@ -19,9 +17,9 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<PoloApp />}>
-            <Route path="hydrogen" element={<Hydrogen />} />
-            <Route path="solar-power" element={<SolarPower />} />
             <Route path="power-prices" element={<PowerPrices />} />
+            <Route path="solar-power" element={<SolarPower />} />
+            <Route path="hydrogen" element={<Hydrogen />} />
           </Route>
         </Routes>
       </BrowserRouter>
