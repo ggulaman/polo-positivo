@@ -57,7 +57,7 @@ export const SolarPower = () => {
   const [solarPVPriceEstimation, setSolarPVPriceEstimation, resultType, setResultType, resultDetails, setResultDetails, energyData, setEnergyData] = useOutletContext();
 
   const fetchData = async () => {
-    const response = await fetchSolarData({ latitud, longitud, peakPower, loss, fixType, optSlopeAndAzimut, optSlope, azimut, slope, azimut, optPVPrice, pvSystemPrice, interest, lifeTime });
+    const response = await fetchSolarData({ latitud, longitud, peakPower, loss, fixType, optSlopeAndAzimut, optSlope, azimut, slope, optPVPrice, pvSystemPrice, interest, lifeTime });
     if (response?.error) {
       console.log(`error: ${JSON.stringify(response.error)}`)
       setResultDetails(null);

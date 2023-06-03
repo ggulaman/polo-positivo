@@ -15,7 +15,7 @@ const technologyTypes = [
 const technologyTypeNames = technologyTypes.map(item => item.name);
 
 export const H2cost = () => {
-  const [solarPVPriceEstimation, setSolarPVPriceEstimation] = useOutletContext();
+  const [solarPVPriceEstimation,] = useOutletContext();
 
   const [energyCost, setEnergyCost] = useState({ solarPowerPrice: solarPVPriceEstimation ? solarPVPriceEstimation : 120, gridPowerPrice: 120, solarPowerWeight: 25, gridPowerWeight: 75, totalPriceCost: solarPVPriceEstimation ? solarPVPriceEstimation * 25 / 100 + 120 * 75 / 100 : 120 * 25 / 100 + 120 * 75 / 100 });
   const [electVolume, setElectVolume] = useState({ electroPower: 1, hourPerYearConsumption: 8000, expectationOfLife: 10, anualProduction: 2 * 8000 });
