@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import Toolbar from "@mui/material/Toolbar";
 import Grid from "@mui/material/Grid";
@@ -6,8 +6,13 @@ import Box from "@mui/material/Box";
 import Navbar from "./components/Navbar/Navbar";
 
 function App() {
+  const [solarPVPriceEstimation, setSolarPVPriceEstimation] = useState(null);
+  const [resultType, setResultType] = useState('Energia media diaria [kWh]');
+  const [resultDetails, setResultDetails] = useState(null)
+  const [energyData, setEnergyData] = useState(null)
+
   return (
-    <Grid container>
+    <Grid container sx={{ ml: -4 }}>
       <Navbar />
       <Box
         component="main"
@@ -23,7 +28,7 @@ function App() {
       >
         <Toolbar />
         <Box >
-          <Outlet />
+          <Outlet context={[solarPVPriceEstimation, setSolarPVPriceEstimation, resultType, setResultType, resultDetails, setResultDetails, energyData, setEnergyData]} />
         </Box>
       </Box>
     </Grid>

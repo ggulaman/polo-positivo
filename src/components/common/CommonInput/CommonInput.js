@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 
-const CommonInput = ({ label, id, value, variant = undefined, onChange, error, leftLabel, disabled, helperText, sx = { m: 1, width: '30ch' } }) => {
+const CommonInput = ({ label, id, value, variant = undefined, onChange, error, leftLabel, disabled, helperText, sx = { m: 1, width: '30ch' }, type = undefined }) => {
   return (
     <Box>
       <TextField
@@ -19,6 +19,7 @@ const CommonInput = ({ label, id, value, variant = undefined, onChange, error, l
         InputProps={{
           startAdornment: <InputAdornment position="start">{leftLabel}</InputAdornment>,
         }}
+        type={type}
       />
     </Box>
   );

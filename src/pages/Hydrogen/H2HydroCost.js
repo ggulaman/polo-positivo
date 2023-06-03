@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
+import { useOutletContext } from 'react-router-dom';
+
 //import CommonPaper from "../../components/common/CommonPaper/CommonPaper";
 //import { Grid } from "@mui/material";
 import CommonSelect from "../../components/common/CommonSelect/CommonSelect";
@@ -13,7 +15,9 @@ const technologyTypes = [
 const technologyTypeNames = technologyTypes.map(item => item.name);
 
 export const H2cost = () => {
-  const [energyCost, setEnergyCost] = useState({ solarPowerPrice: 120, gridPowerPrice: 120, solarPowerWeight: 25, gridPowerWeight: 75, totalPriceCost: 120 * 25 / 100 + 120 * 75 / 100 });
+  const [solarPVPriceEstimation, setSolarPVPriceEstimation] = useOutletContext();
+
+  const [energyCost, setEnergyCost] = useState({ solarPowerPrice: solarPVPriceEstimation ? solarPVPriceEstimation : 120, gridPowerPrice: 120, solarPowerWeight: 25, gridPowerWeight: 75, totalPriceCost: solarPVPriceEstimation ? solarPVPriceEstimation * 25 / 100 + 120 * 75 / 100 : 120 * 25 / 100 + 120 * 75 / 100 });
   const [electVolume, setElectVolume] = useState({ electroPower: 1, hourPerYearConsumption: 8000, expectationOfLife: 10, anualProduction: 2 * 8000 });
   const [tecnologyData, setTecnologyData] = useState({
     tecnology: technologyTypes[1].name,
@@ -80,19 +84,23 @@ export const H2cost = () => {
           label="Precio Energía Fotovoltaica"
           id="solarPowerPrice"
           sx={{ m: 1, width: '25ch' }}
-          value={(energyCost && energyCost.solarPowerPrice) || 0}
+          value={(solarPVPriceEstimation ? solarPVPriceEstimation : (energyCost && energyCost.solarPowerPrice)) || 0}
           helperText={'Coste Energía Fotovoltaica'}
           onChange={handleEnergyCost}
           leftLabel='EUR/MWh'
+          type="number"
+          disabled={solarPVPriceEstimation}
+
         />
         <CommonInput
           label="Precio Energía Red"
           id="gridPowerPrice"
           sx={{ m: 1, width: '25ch' }}
           value={(energyCost && energyCost.gridPowerPrice) || 0}
-          helperText={'Coste Energia Red'}
+          helperText={'Coste Energía Red'}
           onChange={handleEnergyCost}
           leftLabel='EUR/MWh'
+          type="number"
         />
       </Box>
       <br />
@@ -105,18 +113,20 @@ export const H2cost = () => {
           id="solarPowerWeight"
           sx={{ m: 1, width: '25ch' }}
           value={(energyCost && energyCost.solarPowerWeight) || 0}
-          helperText={'% Energia Fotovoltaica'}
+          helperText={'% Energía Fotovoltaica'}
           onChange={handleEnergyCost}
           leftLabel='%'
+          type="number"
         />
         <CommonInput
           label="Peso Energía de la Red"
           id="gridPowerWeight"
           sx={{ m: 1, width: '25ch' }}
           value={(energyCost && energyCost.gridPowerWeight) || 0}
-          helperText={'% Energia Red'}
+          helperText={'% Energía Red'}
           onChange={handleEnergyCost}
           leftLabel='%'
+          type="number"
         />
       </Box>
       <Box sx={{
@@ -127,11 +137,12 @@ export const H2cost = () => {
           label="Precio Energía"
           id="powerPrice"
           sx={{ m: 1, width: '25ch' }}
-          value={(energyCost && energyCost.totalPriceCost) || 0}
-          helperText={'Precio Energia'}
+          value={(energyCost && energyCost.totalPriceCost.toFixed(2)) || 0}
+          helperText={'Precio Energía'}
           variant='filled'
           disabled
           leftLabel='EUR/MWh'
+          type="number"
         />
       </Box>
       <br />
@@ -176,7 +187,7 @@ export const H2cost = () => {
           variant="filled"
           disabled
           sx={{ m: 1, width: '25ch' }}
-          value={(electVolume && electVolume.anualProduction) || 0}
+          value={(electVolume && electVolume.anualProduction.toFixed(2)) || 0}
           helperText={''}
           leftLabel='MW'
         />
@@ -204,7 +215,7 @@ export const H2cost = () => {
           variant="filled"
           disabled
           sx={{ m: 1, width: '25ch' }}
-          value={tecnologyData.unitaryPriceCostH2 || null}
+          value={tecnologyData.unitaryPriceCostH2.toFixed(4) || null}
           helperText={''}
           onChange={() => null}
           leftLabel='EUR/kg'
@@ -215,7 +226,7 @@ export const H2cost = () => {
           variant="filled"
           disabled
           sx={{ m: 1, width: '25ch' }}
-          value={tecnologyData.capex || null}
+          value={tecnologyData.capex.toFixed(2) || null}
           helperText={''}
           onChange={() => null}
           leftLabel='EUR/MW'
@@ -226,7 +237,7 @@ export const H2cost = () => {
           variant="filled"
           disabled
           sx={{ m: 1, width: '25ch' }}
-          value={tecnologyData.opex || null}
+          value={tecnologyData.opex.toFixed(4) || null}
           helperText={''}
           onChange={() => null}
           leftLabel='EUR/MW'
@@ -246,7 +257,7 @@ export const H2cost = () => {
           variant="filled"
           disabled
           sx={{ m: 1, width: '25ch' }}
-          value={tecnologyData.unitaryPriceCostH2 + tecnologyData.capex * (electVolume.electroPower + tecnologyData.opex) / (electVolume.expectationOfLife * electVolume.hourPerYearConsumption) || null}
+          value={(tecnologyData.unitaryPriceCostH2 + tecnologyData.capex * (electVolume.electroPower + tecnologyData.opex) / (electVolume.expectationOfLife * electVolume.hourPerYearConsumption)).toFixed(4) || null}
           helperText={''}
           onChange={() => null}
           leftLabel='EUR/kg'
@@ -257,7 +268,7 @@ export const H2cost = () => {
           variant="filled"
           disabled
           sx={{ m: 1, width: '25ch' }}
-          value={electVolume.electroPower * tecnologyData.capex || null}
+          value={(electVolume.electroPower * tecnologyData.capex).toFixed(2) || null}
           helperText={''}
           onChange={() => null}
           leftLabel='EUR'
@@ -268,18 +279,18 @@ export const H2cost = () => {
           variant="filled"
           disabled
           sx={{ m: 1, width: '25ch' }}
-          value={electVolume.electroPower * tecnologyData.capex * tecnologyData.opex || null}
+          value={(electVolume.electroPower * tecnologyData.capex * tecnologyData.opex).toFixed(2) || null}
           helperText={''}
           onChange={() => null}
           leftLabel='EUR'
         />
         <CommonInput
-          label="Coste Energia"
+          label="Coste Energía"
           id="opex"
           variant="filled"
           disabled
           sx={{ m: 1, width: '25ch' }}
-          value={electVolume.electroPower * electVolume.hourPerYearConsumption * energyCost.totalPriceCost || null}
+          value={(electVolume.electroPower * electVolume.hourPerYearConsumption * energyCost.totalPriceCost).toFixed(2) || null}
           helperText={''}
           onChange={() => null}
           leftLabel='EUR'
