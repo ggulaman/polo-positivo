@@ -9,8 +9,8 @@ const technologyTypes = ['PEM', 'Alcalina', 'SOEC'];
 
 export const Hydrogen = () => {
   const [energyPrice,] = useState(null)
-  const [renFactor,] = useState(null)
-  const [gridPrice,] = useState(null)
+  //const [renFactor,] = useState(null)
+  //const [gridPrice,] = useState(null)
 
 
   const EmisionEstimation = () =>
@@ -367,7 +367,7 @@ export const Hydrogen = () => {
           <H2cost />
         </CommonPaper>
       </Grid>
-      {/* <Grid item xs={12} xm={12} sx={{ mt: 4, mb: 4, ml: 4, mr: 4 }}>
+      <Grid item xs={12} xm={12} sx={{ mt: 4, mb: 4, ml: 4, mr: 4 }}>
         <CommonPaper title={"Generación H2"} sx={{ ml: 10 }}>
           {H2Generation()}
         </CommonPaper>
@@ -377,7 +377,7 @@ export const Hydrogen = () => {
         <CommonPaper title={"Calculo de Emisiones"} sx={{ ml: 10 }}>
           {EmisionEstimation()}
         </CommonPaper>
-      </Grid> */}
+      </Grid>
 
     </Box>
   );
