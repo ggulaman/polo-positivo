@@ -355,6 +355,8 @@ export const SolarPower = () => {
           <CommonButton
             variant="contained"
             onClick={() => {
+              console.log(`resultDetails: ${JSON.stringify(resultDetails)}`);
+              console.log(`resultDetails: ${JSON.stringify(energyData)}`);
               setErrorMessage(null);
               setIsLoading(true);
               setEnergyData(null);
