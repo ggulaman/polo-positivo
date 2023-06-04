@@ -11,6 +11,12 @@ function App() {
   const [resultDetails, setResultDetails] = useState(null)
   const [energyData, setEnergyData] = useState(null)
 
+  const technologyTypes = [
+    { name: 'PEM', id: 'PEM', unitaryPowerCost: 55, capex: 1400000, opex: 0.25 / 6 },
+    { name: 'Alcalina', id: 'Alcalina', unitaryPowerCost: 48, capex: 900000, opex: 0.25 / 10 },
+    { name: 'SOEC', id: 'SOEC', unitaryPowerCost: 38, capex: 3800000, opex: 0.25 / 2 },
+  ];
+
   return (
     <Grid container sx={{ ml: -4 }}>
       <Navbar />
@@ -28,7 +34,7 @@ function App() {
       >
         <Toolbar />
         <Box >
-          <Outlet context={[solarPVPriceEstimation, setSolarPVPriceEstimation, resultType, setResultType, resultDetails, setResultDetails, energyData, setEnergyData]} />
+          <Outlet context={{ solarPVPriceEstimation, setSolarPVPriceEstimation, resultType, setResultType, resultDetails, setResultDetails, energyData, setEnergyData, technologyTypes }} />
         </Box>
       </Box>
     </Grid>

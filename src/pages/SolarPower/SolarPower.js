@@ -54,7 +54,7 @@ export const SolarPower = () => {
   const [lifeTime, setLifeTime] = useState(10)
   //const [resultType, setResultType] = useState(resultTypes[0].desc)
 
-  const [solarPVPriceEstimation, setSolarPVPriceEstimation, resultType, setResultType, resultDetails, setResultDetails, energyData, setEnergyData] = useOutletContext();
+  const { solarPVPriceEstimation, setSolarPVPriceEstimation, resultType, setResultType, resultDetails, setResultDetails, energyData, setEnergyData } = useOutletContext();
 
   const fetchData = async () => {
     const response = await fetchSolarData({ latitud, longitud, peakPower, loss, fixType, optSlopeAndAzimut, optSlope, azimut, slope, optPVPrice, pvSystemPrice, interest, lifeTime });

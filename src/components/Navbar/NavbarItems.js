@@ -1,6 +1,8 @@
 import * as React from "react";
 import PropaneIcon from "@mui/icons-material/Propane";
+import Water from "@mui/icons-material/Water";
 import SolarPower from "@mui/icons-material/SolarPower";
+import Co2Icon from "@mui/icons-material/Co2";
 import PriceCheck from "@mui/icons-material/PriceCheck";
 
 export const userNavItemsTop = [
@@ -23,5 +25,17 @@ export const userNavItemsBottom = [
     icon: <PropaneIcon />,
     label: "Hidrógeno",
     route: "hydrogen"
+  },
+  {
+    id: 3,
+    icon: <Water />,
+    label: "Consumo H2O",
+    route: "H2O"
+  },
+  {
+    id: 3,
+    icon: <Co2Icon />,
+    label: "Generación C02",
+    route: "Co2"
   }
 ];

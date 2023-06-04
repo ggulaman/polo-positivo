@@ -8,7 +8,7 @@ import { Grid } from "@mui/material";
 import { H2cost } from './H2HydroCost'
 // const technologyTypes = ['PEM', 'Alcalina', 'SOEC'];
 
-export const Hydrogen = ({ solarPVPriceEstimation, setSolarPVPriceEstimation }) => {
+export const Hydrogen = () => {
   // const [energyPrice,] = useState(null)
   //const [renFactor,] = useState(null)
   //const [gridPrice,] = useState(null)
@@ -365,7 +365,7 @@ export const Hydrogen = ({ solarPVPriceEstimation, setSolarPVPriceEstimation }) 
       <Grid item xs={12} xm={12} sx={{ mt: 4, mb: 4, ml: 4, mr: 4 }}>
 
         <CommonPaper title={"Coste H2"} sx={{ ml: 10 }}>
-          <H2cost solarPVPriceEstimation={solarPVPriceEstimation} setSolarPVPriceEstimation={setSolarPVPriceEstimation} />
+          <H2cost />
         </CommonPaper>
       </Grid>
       {/* <Grid item xs={12} xm={12} sx={{ mt: 4, mb: 4, ml: 4, mr: 4 }}>

@@ -7,34 +7,30 @@ import { useOutletContext } from 'react-router-dom';
 import CommonSelect from "../../components/common/CommonSelect/CommonSelect";
 import CommonInput from '../../components/common/CommonInput/CommonInput';
 
-const technologyTypes = [
-  { name: 'PEM', id: 'PEM', unitaryPriceCost: 55, capex: 1400000, opex: 0.25 / 6 },
-  { name: 'Alcalina', id: 'Alcalina', unitaryPriceCost: 48, capex: 900000, opex: 0.25 / 10 },
-  { name: 'SOEC', id: 'SOEC', unitaryPriceCost: 38, capex: 3800000, opex: 0.25 / 2 },
-];
-const technologyTypeNames = technologyTypes.map(item => item.name);
+
 
 export const H2cost = () => {
-  const [solarPVPriceEstimation,] = useOutletContext();
+  const { solarPVPriceEstimation, technologyTypes } = useOutletContext();
+  const technologyTypeNames = technologyTypes.map(item => item.name);
 
   const [energyCost, setEnergyCost] = useState({ solarPowerPrice: solarPVPriceEstimation ? solarPVPriceEstimation : 120, gridPowerPrice: 120, solarPowerWeight: 25, gridPowerWeight: 75, totalPriceCost: solarPVPriceEstimation ? solarPVPriceEstimation * 25 / 100 + 120 * 75 / 100 : 120 * 25 / 100 + 120 * 75 / 100 });
   const [electVolume, setElectVolume] = useState({ electroPower: 1, hourPerYearConsumption: 8000, expectationOfLife: 10, anualProduction: 2 * 8000 });
   const [tecnologyData, setTecnologyData] = useState({
     tecnology: technologyTypes[1].name,
-    unitaryPriceCostH2: energyCost.totalPriceCost / technologyTypes[1].unitaryPriceCost,
+    unitaryPowerCostH2: energyCost.totalPriceCost / technologyTypes[1].unitaryPowerCost,
     capex: technologyTypes[1].capex,
     opex: technologyTypes[1].opex,
   });
   // const [results, setResults] = useState({
-  //   unitaryPriceH2: tecnologyData.unitaryPriceCost + tecnologyData.capex * (1 + tecnologyData.opex) / (electVolume.expectationOfLife * electVolume.hourPerYearConsumption),
+  //   unitaryPriceH2: tecnologyData.unitaryPowerCost + tecnologyData.capex * (1 + tecnologyData.opex) / (electVolume.expectationOfLife * electVolume.hourPerYearConsumption),
   //   capexTotal: electVolume.electroPower * tecnologyData.capex,
   //   opexAnual: electVolume.electroPower * tecnologyData.capex * tecnologyData.opex,
   //   anualEnergyCost: electVolume.electroPower * electVolume.hourPerYearConsumption * energyCost.totalPriceCost
   // });
 
   const handleTecnologyChange = event => {
-    const { capex, opex, unitaryPriceCost } = technologyTypes.find(tech => tech.name === event);
-    setTecnologyData({ tecnology: event, capex, opex, unitaryPriceCostH2: energyCost.totalPriceCost / unitaryPriceCost })
+    const { capex, opex, unitaryPowerCost } = technologyTypes.find(tech => tech.name === event);
+    setTecnologyData({ tecnology: event, capex, opex, unitaryPowerCostH2: energyCost.totalPriceCost / unitaryPowerCost })
   }
 
   const handleVolumeElect = ({ target: { value, id } }) => {
@@ -215,7 +211,7 @@ export const H2cost = () => {
           variant="filled"
           disabled
           sx={{ m: 1, width: '25ch' }}
-          value={tecnologyData.unitaryPriceCostH2.toFixed(4) || null}
+          value={tecnologyData.unitaryPowerCostH2.toFixed(4) || null}
           helperText={''}
           onChange={() => null}
           leftLabel='EUR/kg'
@@ -257,7 +253,7 @@ export const H2cost = () => {
           variant="filled"
           disabled
           sx={{ m: 1, width: '25ch' }}
-          value={(tecnologyData.unitaryPriceCostH2 + tecnologyData.capex * (electVolume.electroPower + tecnologyData.opex) / (electVolume.expectationOfLife * electVolume.hourPerYearConsumption)).toFixed(4) || null}
+          value={(tecnologyData.unitaryPowerCostH2 + tecnologyData.capex * (electVolume.electroPower + tecnologyData.opex) / (electVolume.expectationOfLife * electVolume.hourPerYearConsumption)).toFixed(4) || null}
           helperText={''}
           onChange={() => null}
           leftLabel='EUR/kg'
