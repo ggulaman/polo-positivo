@@ -16,15 +16,15 @@ const fetchSolarData = async (props) => {
   return res;
 }
 
-const fetchREEPrices = async () => {
-  const res = await fetch(`https://api.esios.ree.es/indicators/1001`, {
+const fetchREEPrices = async (date, timeF, timeL) => {
+  const res = await fetch(`https://apidatos.ree.es/es/datos/mercados/precios-mercados-tiempo-real?start_date=${date}T${timeF}:00&end_date=${date}T${timeL}:59&time_trunc=hour`, {
     method: "GET"
   })
     .then(response => {
       if (response.ok) {
         return response.json();
       }
-      return { error: "No se puede obtener la informacion" }
+      return { error: "No se puede obtener la informacion. Asegurese de que la fecha es igual o anterior a hoy y que 'Hasta Hora' es posterior a 'Desde Hora'" }
     })
     .catch((error) => {
       return { error: error.message }
