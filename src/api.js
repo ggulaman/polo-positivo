@@ -16,8 +16,8 @@ const fetchSolarData = async (props) => {
   return res;
 }
 
-const fetchREEPrices = async (date, timeF, timeL) => {
-  const res = await fetch(`https://apidatos.ree.es/es/datos/mercados/precios-mercados-tiempo-real?start_date=${date}T${timeF}:00&end_date=${date}T${timeL}:59&time_trunc=hour`, {
+const fetchREEPrices = async (date, dateLast, timeF, timeL) => {
+  const res = await fetch(`https://apidatos.ree.es/es/datos/mercados/precios-mercados-tiempo-real?start_date=${date}T${timeF}:00&end_date=${dateLast}T${timeL}:59&time_trunc=hour`, {
     method: "GET"
   })
     .then(response => {

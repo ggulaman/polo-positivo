@@ -19,47 +19,39 @@ export const PowerPrices = () => {
   const [getPrices, setPrices] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
-  const { reePriceEstimation, setReePriceEstimation, date, setDate, time0f, setTime0f, time0l, setTime0l, averagePrice, setAveragePrice } = useOutletContext();
+  const { reePriceEstimation, setReePriceEstimation, date, setDate, dateLast, setDateLast, time0f, setTime0f, time0l, setTime0l, averagePrice, setAveragePrice } = useOutletContext();
 
 
   useEffect(() => {
     date !== undefined && (async () => {
-      //setReePriceEstimation(false);
-      const response = await fetchREEPrices(date.format('DD/MM/YYYY'), time0f.format('HH'), time0l.format('HH'));
+      const response = await fetchREEPrices(date.format('DD-MM-YYYY'), dateLast.format('DD-MM-YYYY'), time0f.format('HH'), time0l.format('HH'));
       if (response?.error) {
         console.log(`error: ${JSON.stringify(response.error)}`);
         setErrorMessage(response.error);
         setPrices(null);
       } else {
-        console.log(`values ${JSON.stringify(response.included)}`);
         const pvpcValues = response.included.find(item => item.type === 'PVPC (€/MWh)');
-        console.log(`values ${JSON.stringify(pvpcValues)}`);
-        const pvpcPrices = pvpcValues.attributes.values.map((item, index) => ({ value: item.value, hour: index + parseInt(time0f.format('HH')) < 10 ? `0${index + parseInt(time0f.format('HH'))}` : `${index + parseInt(time0f.format('HH'))}` }));
-
-        const result = Object.values(pvpcPrices.reduce((acc, { hour, value }) => {
+        const pvpcPrices = pvpcValues.attributes.values.map((item, index) => ({ value: item.value, hour: new Date(item.datetime).getHours() < 10 ? `0${new Date(item.datetime).getHours()}` : `${new Date(item.datetime).getHours()}` }));
+        const pvpcPricesFilterd = pvpcPrices.filter(item => item.hour >= time0f.format('HH') && item.hour <= time0l.format('HH'));
+        const result = Object.values(pvpcPricesFilterd.reduce((acc, { hour, value }) => {
           const key = hour;
           acc[key] = acc[key] || { hour, values: [] };
           acc[key].values.push(value);
           acc[key].value = acc[key].values.reduce((avg, score) => avg + score / acc[key].values.length, 0);
           return acc;
         }, {})).map(({ values, ...obj }) => obj)
-
-        console.log(`result ${JSON.stringify(result)}`)
-
+        const resultSorted = result.sort((a, b) => a.hour > b.hour ? 1 : -1)
         setAveragePrice(average(result.map(item => item.value)).toFixed(4));
-        setPrices(pvpcPrices)
+        setPrices(resultSorted);
         setErrorMessage(null);
         reePriceEstimation && setReePriceEstimation(average(result.map(item => item.value)).toFixed(4));
       }
     })();
-  }, [date, time0f, time0l, reePriceEstimation, setAveragePrice, setReePriceEstimation]);
+  }, [date, dateLast, time0f, time0l, reePriceEstimation, setAveragePrice, setReePriceEstimation]);
 
   return (
     <Box>
       <Grid item xs={12} xm={12} sx={{ mt: 4, mb: 4, ml: 4, mr: 4 }}>
-
-
-
         <Box>
           <CommonPaper title={"Precios [EUR/MWh]"} sx={{ ml: 10 }}>
             <Box sx={{
@@ -70,11 +62,20 @@ export const PowerPrices = () => {
                 <DatePicker
                   //inputFormat="DD/MM/YYYY"
                   //views={["day", "month", "year"]}
-                  label="Fecha Inicio"
+                  label="Desde"
                   format="DD-MM-YYYY"
                   defaultValue={dayjs(date)}
                   sx={{ width: 200, mb: 2, ml: 4, }}
                   onChange={value => setDate(value)}
+                />
+                <DatePicker
+                  //inputFormat="DD/MM/YYYY"
+                  //views={["day", "month", "year"]}
+                  label="Hasta"
+                  format="DD-MM-YYYY"
+                  defaultValue={dayjs(dateLast)}
+                  sx={{ width: 200, mb: 2, ml: 4, }}
+                  onChange={value => setDateLast(value)}
                 />
                 <TimePicker
                   label="Desde Hora"

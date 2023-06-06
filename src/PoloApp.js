@@ -10,6 +10,7 @@ function App() {
   const [solarPVPriceEstimation, setSolarPVPriceEstimation] = useState(null);
   const [reePriceEstimation, setReePriceEstimation] = useState(null);
   const [date, setDate] = useState(moment());
+  const [dateLast, setDateLast] = useState(moment());
   const [time0f, setTime0f] = useState(moment().startOf('day'));
   const [time0l, setTime0l] = useState(moment().endOf('day'));
   const [averagePrice, setAveragePrice] = useState();
@@ -40,7 +41,7 @@ function App() {
       >
         <Toolbar />
         <Box >
-          <Outlet context={{ reePriceEstimation, setReePriceEstimation, date, setDate, time0f, setTime0f, time0l, setTime0l, averagePrice, setAveragePrice, solarPVPriceEstimation, setSolarPVPriceEstimation, resultType, setResultType, resultDetails, setResultDetails, energyData, setEnergyData, technologyTypes }} />
+          <Outlet context={{ reePriceEstimation, setReePriceEstimation, date, setDate, dateLast, setDateLast, time0f, setTime0f, time0l, setTime0l, averagePrice, setAveragePrice, solarPVPriceEstimation, setSolarPVPriceEstimation, resultType, setResultType, resultDetails, setResultDetails, energyData, setEnergyData, technologyTypes }} />
         </Box>
       </Box>
     </Grid>
