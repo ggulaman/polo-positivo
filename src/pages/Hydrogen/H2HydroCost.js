@@ -2,18 +2,16 @@ import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import { useOutletContext } from 'react-router-dom';
 
-//import CommonPaper from "../../components/common/CommonPaper/CommonPaper";
-//import { Grid } from "@mui/material";
 import CommonSelect from "../../components/common/CommonSelect/CommonSelect";
 import CommonInput from '../../components/common/CommonInput/CommonInput';
 
 
 
 export const H2cost = () => {
-  const { solarPVPriceEstimation, technologyTypes } = useOutletContext();
+  const { solarPVPriceEstimation, technologyTypes, reePriceEstimation } = useOutletContext();
   const technologyTypeNames = technologyTypes.map(item => item.name);
 
-  const [energyCost, setEnergyCost] = useState({ solarPowerPrice: solarPVPriceEstimation ? solarPVPriceEstimation : 120, gridPowerPrice: 120, solarPowerWeight: 25, gridPowerWeight: 75, totalPriceCost: solarPVPriceEstimation ? solarPVPriceEstimation * 25 / 100 + 120 * 75 / 100 : 120 * 25 / 100 + 120 * 75 / 100 });
+  const [energyCost, setEnergyCost] = useState({ solarPowerPrice: solarPVPriceEstimation ? solarPVPriceEstimation : 120, gridPowerPrice: reePriceEstimation ? reePriceEstimation : 120, solarPowerWeight: 25, gridPowerWeight: 75, totalPriceCost: (solarPVPriceEstimation ? solarPVPriceEstimation : 120) * 25 / 100 + (reePriceEstimation ? reePriceEstimation : 120) * 75 / 100 });
   const [electVolume, setElectVolume] = useState({ electroPower: 1, hourPerYearConsumption: 8000, expectationOfLife: 10, anualProduction: 2 * 8000 });
   const [tecnologyData, setTecnologyData] = useState({
     tecnology: technologyTypes[1].name,
@@ -92,11 +90,12 @@ export const H2cost = () => {
           label="Precio Energía Red"
           id="gridPowerPrice"
           sx={{ m: 1, width: '25ch' }}
-          value={(energyCost && energyCost.gridPowerPrice) || 0}
+          value={(reePriceEstimation ? reePriceEstimation : (energyCost && energyCost.gridPowerPrice)) || 0}
           helperText={'Coste Energía Red'}
           onChange={handleEnergyCost}
           leftLabel='EUR/MWh'
           type="number"
+          disabled={reePriceEstimation}
         />
       </Box>
       <br />

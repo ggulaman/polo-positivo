@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import moment from 'moment';
 import dayjs from 'dayjs';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { useOutletContext } from 'react-router-dom';
+import CommonSwitch from '../../components/common/CommonSwitch/CommonSwitch';
 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -18,41 +19,12 @@ export const PowerPrices = () => {
   const [getPrices, setPrices] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
-  const [date, setDate] = useState(moment());
-  const [time0f, setTime0f] = useState(moment().startOf('day'));
-  const [time0l, setTime0l] = useState(moment().endOf('day'));
-  const [averagePrice, setAveragePrice] = useState();
+  const { reePriceEstimation, setReePriceEstimation, date, setDate, time0f, setTime0f, time0l, setTime0l, averagePrice, setAveragePrice } = useOutletContext();
 
-  // const fetchPrices = async () => {
-  //   const response = await fetchREEPrices(date.format('DD/MM/YYYY'), time0f.format('HH'), time0l.format('HH'));
-  //   if (response?.error) {
-  //     console.log(`error: ${JSON.stringify(response.error)}`);
-  //     setErrorMessage(response.error);
-  //     setPrices(null);
-  //   } else {
-  //     console.log(`values ${JSON.stringify(response.included)}`);
-  //     const pvpcValues = response.included.find(item => item.type === 'PVPC (€/MWh)');
-  //     console.log(`values ${JSON.stringify(pvpcValues)}`);
-  //     const pvpcPrices = pvpcValues.attributes.values.map((item, index) => ({ value: item.value, hour: index + parseInt(time0f.format('HH')) < 10 ? `0${index + parseInt(time0f.format('HH'))}` : `${index + parseInt(time0f.format('HH'))}` }));
-
-  //     const result = Object.values(pvpcPrices.reduce((acc, { hour, value }) => {
-  //       const key = hour;
-  //       acc[key] = acc[key] || { hour, values: [] };
-  //       acc[key].values.push(value);
-  //       acc[key].value = acc[key].values.reduce((avg, score) => avg + score / acc[key].values.length, 0);
-  //       return acc;
-  //     }, {})).map(({ values, ...obj }) => obj)
-
-  //     console.log(`result ${JSON.stringify(result)}`)
-
-  //     setAveragePrice(average(result.map(item => item.value)));
-  //     setPrices(pvpcPrices)
-  //     setErrorMessage(null);
-  //   }
-  // }
 
   useEffect(() => {
     date !== undefined && (async () => {
+      //setReePriceEstimation(false);
       const response = await fetchREEPrices(date.format('DD/MM/YYYY'), time0f.format('HH'), time0l.format('HH'));
       if (response?.error) {
         console.log(`error: ${JSON.stringify(response.error)}`);
@@ -74,12 +46,13 @@ export const PowerPrices = () => {
 
         console.log(`result ${JSON.stringify(result)}`)
 
-        setAveragePrice(average(result.map(item => item.value)));
+        setAveragePrice(average(result.map(item => item.value)).toFixed(4));
         setPrices(pvpcPrices)
         setErrorMessage(null);
+        reePriceEstimation && setReePriceEstimation(average(result.map(item => item.value)).toFixed(4));
       }
     })();
-  }, [date, time0f, time0l]);
+  }, [date, time0f, time0l, reePriceEstimation, setAveragePrice, setReePriceEstimation]);
 
   return (
     <Box>
@@ -130,7 +103,14 @@ export const PowerPrices = () => {
               <Box>
                 <Box sx={{ ml: 4, mt: 4 }}>
                   <Box sx={{ fontWeight: 500 }} display="inline">{`Average Price: `}</Box>
-                  <Box display="inline">{`${averagePrice.toFixed(4)} EUR`}</Box>
+                  <Box display="inline">{`${averagePrice} EUR`}</Box>
+                  <CommonSwitch
+                    label={"Vincular Precio al cálculo de hidrogeno"}
+                    checked={reePriceEstimation}
+                    onChange={() => {
+                      setReePriceEstimation(reePriceEstimation ? false : averagePrice);
+                    }}
+                  />
                 </Box>
 
                 <CommonChartBar sx={{ m: 10 }}
