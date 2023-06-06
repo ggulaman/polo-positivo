@@ -103,7 +103,7 @@ export const PowerPrices = () => {
               getPrices &&
               <Box>
                 <Box sx={{ ml: 4, mt: 4 }}>
-                  <Box sx={{ fontWeight: 500 }} display="inline">{`Average Price: `}</Box>
+                  <Box sx={{ fontWeight: 500 }} display="inline">{`Precio medio: `}</Box>
                   <Box display="inline">{`${averagePrice} EUR`}</Box>
                   <CommonSwitch
                     label={"Vincular Precio al cálculo de hidrogeno"}

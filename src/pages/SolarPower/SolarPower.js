@@ -336,7 +336,7 @@ export const SolarPower = () => {
     <Box>
       <Grid item xs={12} xm={12} sx={{ mt: 4, mb: 4, ml: 4, mr: 4 }}>
         <CommonPaper
-          title={"Parameters"}
+          title={"Parametros"}
         >
           {solarParameters()}
         </CommonPaper>

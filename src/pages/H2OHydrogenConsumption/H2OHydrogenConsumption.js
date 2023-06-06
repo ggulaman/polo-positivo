@@ -48,7 +48,7 @@ const H2Generation = () => {
       <br />
 
       <Box>
-        <Box sx={{ color: "#5895d1", fontWeight: "bold" }}>{`Tecnologia`}</Box>
+        <Box sx={{ color: "#5895d1", fontWeight: "bold" }}>{`Tecnología`}</Box>
         <Box sx={{
           display: 'flex',
           flexDirection: 'row',
