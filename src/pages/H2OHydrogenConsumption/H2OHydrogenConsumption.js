@@ -38,7 +38,7 @@ const H2Generation = () => {
           helperText={'[1, ..., 50]'}
           onChange={(event) => {
             console.log(`rechazo: ${event.target.value}`)
-            setRejection(prev => (event?.target.value >= 0 && event.target.value <= 50) ? event.target.value : prev)
+            setRejection(prev => (event?.target.value >= 0 && event.target.value <= 50000) ? event.target.value : prev)
           }}
           inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
           type="number"
@@ -80,7 +80,7 @@ const H2Generation = () => {
         flexDirection: 'row',
       }}>
         <CommonInput
-          label="Consumo de agua"
+          label="Consumo de agua para H2"
           id="consumoH2O"
           sx={{ m: 1, width: '25ch' }}
           value={kgH2PerHour * 9}
@@ -91,6 +91,15 @@ const H2Generation = () => {
         />
         <CommonInput
           label="Agua de rechazo"
+          id="precioEnergía"
+          sx={{ m: 1, width: '25ch' }}
+          value={(kgH2PerHour * 9 * (rejection / 100)).toFixed(2)}
+          helperText={''}
+          type="number"
+          disabled={true} leftLabel='l'
+        />
+        <CommonInput
+          label="Agua Total Consumida"
           id="precioEnergía"
           sx={{ m: 1, width: '25ch' }}
           value={(kgH2PerHour * 9 * (1 + rejection / 100)).toFixed(2)}
@@ -109,7 +118,7 @@ export const H2OHydrogenConsumption = () => {
   return (
     <Box>
       <Grid item xs={12} xm={12} sx={{ mt: 4, mb: 4, ml: 4, mr: 4 }}>
-        <CommonPaper title={"Consumo de H2O"} sx={{ ml: 10 }}>
+        <CommonPaper title={"Consumo Anual de H2O"} sx={{ ml: 10 }}>
           {H2Generation()}
         </CommonPaper>
       </Grid>

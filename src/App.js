@@ -17,9 +17,9 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<PoloApp />}>
-            <Route path="power-prices" element={<PowerPrices />} />
-            <Route path="solar-power" element={<SolarPower />} />
-            <Route path="hydrogen" element={<Hydrogen />} />
+            <Route path="precios-REE" element={<PowerPrices />} />
+            <Route path="energia-solar" element={<SolarPower />} />
+            <Route path="H2" element={<Hydrogen />} />
             <Route path="H2O" element={<H2OHydrogenConsumption />} />
             <Route path="Co2" element={<Co2Generation />} />
           </Route>

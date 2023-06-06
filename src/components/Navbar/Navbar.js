@@ -88,7 +88,7 @@ const NavBar = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const title = `Polo Positivo ${pathname ? "- " + pathname.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>{}[\]\\/]/gi, " ") : ""}`;
+  const title = `H2 EVOLUTION TOOL BOX${pathname.length ? ` - ${pathname.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>{}[\]\\/]/gi, " ")}` : ""}`;
 
   const handleDrawerOpen = () => {
     setOpen(true);

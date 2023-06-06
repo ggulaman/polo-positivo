@@ -10,13 +10,13 @@ export const userNavItemsTop = [
     id: 0,
     icon: <PriceCheck />,
     label: "Precios Electricidad",
-    route: "power-prices"
+    route: "precios-REE"
   },
   {
     id: 1,
     icon: <SolarPower />,
     label: "Energía Solar",
-    route: "solar-power"
+    route: "energia-solar"
   },
 ];
 export const userNavItemsBottom = [
@@ -24,7 +24,7 @@ export const userNavItemsBottom = [
     id: 2,
     icon: <PropaneIcon />,
     label: "Hidrógeno",
-    route: "hydrogen"
+    route: "H2"
   },
   {
     id: 3,
