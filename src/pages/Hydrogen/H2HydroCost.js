@@ -8,16 +8,17 @@ import CommonInput from '../../components/common/CommonInput/CommonInput';
 
 
 export const H2cost = () => {
-  const { solarPVPriceEstimation, technologyTypes, reePriceEstimation } = useOutletContext();
+  const { electVolume, setElectVolume, solarPVPriceEstimation, technologyTypes, reePriceEstimation } = useOutletContext();
   const technologyTypeNames = technologyTypes.map(item => item.name);
 
   const [energyCost, setEnergyCost] = useState({ solarPowerPrice: solarPVPriceEstimation ? solarPVPriceEstimation : 120, gridPowerPrice: reePriceEstimation ? reePriceEstimation : 120, solarPowerWeight: 25, gridPowerWeight: 75, totalPriceCost: (solarPVPriceEstimation ? solarPVPriceEstimation : 120) * 25 / 100 + (reePriceEstimation ? reePriceEstimation : 120) * 75 / 100 });
-  const [electVolume, setElectVolume] = useState({ electroPower: 1, hourPerYearConsumption: 8000, expectationOfLife: 10, anualProduction: 1 * 8000 });
   const [tecnologyData, setTecnologyData] = useState({
     tecnology: technologyTypes[1].name,
-    unitaryPowerCostH2: energyCost.totalPriceCost / technologyTypes[1].unitaryPowerCost,
+    unitaryPowerCost: technologyTypes[1].unitaryPowerCost,
+    unitaryPowerCostH2: energyCost.totalPriceCost / technologyTypes[1].unitaryPowerCost / 1000,
     capex: technologyTypes[1].capex,
     opex: technologyTypes[1].opex,
+    annualH2Production: electVolume.anualProduction * 1000 / technologyTypes[1].unitaryPowerCost
   });
   // const [results, setResults] = useState({
   //   unitaryPriceH2: tecnologyData.unitaryPowerCost + tecnologyData.capex * (1 + tecnologyData.opex) / (electVolume.expectationOfLife * electVolume.hourPerYearConsumption),
@@ -28,7 +29,14 @@ export const H2cost = () => {
 
   const handleTecnologyChange = event => {
     const { capex, opex, unitaryPowerCost } = technologyTypes.find(tech => tech.name === event);
-    setTecnologyData({ tecnology: event, capex, opex, unitaryPowerCostH2: energyCost.totalPriceCost / unitaryPowerCost })
+    setTecnologyData({
+      tecnology: event,
+      capex,
+      opex,
+      unitaryPowerCost,
+      unitaryPowerCostH2: energyCost.totalPriceCost / unitaryPowerCost / 1000,
+      annualH2Production: electVolume.anualProduction * 1000 / unitaryPowerCost
+    })
   }
 
   const handleVolumeElect = ({ target: { value, id } }) => {
@@ -63,6 +71,9 @@ export const H2cost = () => {
       }
       return prev;
     })
+
+    handleTecnologyChange(tecnologyData.tecnology);
+
   }
 
   return (
@@ -205,12 +216,23 @@ export const H2cost = () => {
           disabled={false}
         />
         <CommonInput
+          label="Energía para generar 1kg de h2"
+          id="capex"
+          variant="filled"
+          disabled
+          sx={{ m: 1, width: '25ch' }}
+          value={tecnologyData.unitaryPowerCost.toFixed(2) || null}
+          helperText={''}
+          onChange={() => null}
+          leftLabel='kWh/kg'
+        />
+        <CommonInput
           label="Precio generación 1 kg de H2"
           id="capex"
           variant="filled"
           disabled
           sx={{ m: 1, width: '25ch' }}
-          value={tecnologyData.unitaryPowerCostH2.toFixed(4) || null}
+          value={(tecnologyData.unitaryPowerCostH2).toFixed(6) || null}
           helperText={''}
           onChange={() => null}
           leftLabel='EUR/kg'
@@ -237,6 +259,17 @@ export const H2cost = () => {
           onChange={() => null}
           leftLabel='EUR/MW'
         />
+        <CommonInput
+          label="Producción anual de H2"
+          id="opex"
+          variant="filled"
+          disabled
+          sx={{ m: 1, width: '25ch' }}
+          value={(electVolume.anualProduction * 1000 / tecnologyData.unitaryPowerCost).toFixed(2) || null}
+          helperText={''}
+          onChange={() => null}
+          leftLabel='kg'
+        />
       </Box>
       <br />
       <br />
@@ -252,10 +285,17 @@ export const H2cost = () => {
           variant="filled"
           disabled
           sx={{ m: 1, width: '25ch' }}
-          value={(tecnologyData.unitaryPowerCostH2 + tecnologyData.capex * (electVolume.electroPower + tecnologyData.opex) / (electVolume.expectationOfLife * electVolume.hourPerYearConsumption)).toFixed(4) || null}
+          //value={(tecnologyData.unitaryPowerCostH2 + tecnologyData.capex * electVolume.electroPower / (electVolume.expectationOfLife * tecnologyData.anualProduction) + (tecnologyData.capex * tecnologyData.opex) / (tecnologyData.annualH2Production)).toFixed(4) || null}
+          value={(
+            tecnologyData.unitaryPowerCostH2
+            + (tecnologyData.capex * electVolume.electroPower / (electVolume.expectationOfLife * (electVolume.anualProduction * 1000 / tecnologyData.unitaryPowerCost)))
+            + (tecnologyData.capex * electVolume.electroPower * tecnologyData.opex / (electVolume.anualProduction * 1000 / tecnologyData.unitaryPowerCost))
+          ).toFixed(6)
+            || null}
           helperText={''}
           onChange={() => null}
           leftLabel='EUR/kg'
+          type="number"
         />
         <CommonInput
           label="Capex Total"
@@ -267,6 +307,7 @@ export const H2cost = () => {
           helperText={''}
           onChange={() => null}
           leftLabel='EUR'
+          type="number"
         />
         <CommonInput
           label="Opex Anual"

@@ -7,12 +7,12 @@ import CommonSelect from "../../components/common/CommonSelect/CommonSelect";
 import CommonInput from '../../components/common/CommonInput/CommonInput';
 
 const H2Generation = () => {
-  const { technologyTypes } = useOutletContext();
-  const [energy, setEnergy] = useState(100);
+  const { electVolume, technologyTypes } = useOutletContext();
+  //const [energy, setEnergy] = useState(100);
   const [rejection, setRejection] = useState(5);
   const [tecnologyData, setTecnologyData] = useState(technologyTypes[0].name);
 
-  const kgH2PerHour = (energy * 1000 / technologyTypes.find(item => item.name === tecnologyData).unitaryPowerCost).toFixed(2)
+  const kgH2PerYear = (electVolume.anualProduction * 1000 / technologyTypes.find(item => item.name === tecnologyData).unitaryPowerCost).toFixed(2)
 
   return (
     <Box>
@@ -21,13 +21,15 @@ const H2Generation = () => {
         flexDirection: 'row',
       }}>
         <CommonInput
-          label="Energía consumida"
+          label="Energía anual consumida"
           id="precioEnergía"
           sx={{ m: 1, width: '25ch' }}
-          value={energy}
-          onChange={(event) => setEnergy(event.target.value)}
+          value={electVolume.anualProduction}
+          //onChange={() => }
           type="number"
           leftLabel='MWh'
+          disabled
+          variant='filled'
         />
 
         <CommonInput
@@ -48,7 +50,7 @@ const H2Generation = () => {
       <br />
 
       <Box>
-        <Box sx={{ color: "#5895d1", fontWeight: "bold" }}>{`Tecnología`}</Box>
+        <Box sx={{ color: "#5895d1", fontWeight: "bold" }}>{`Generación H2`}</Box>
         <Box sx={{
           display: 'flex',
           flexDirection: 'row',
@@ -62,10 +64,10 @@ const H2Generation = () => {
             disabled={false}
           />
           <CommonInput
-            label="Produccion de H2 por hora"
+            label="Produccion de H2 anual"
             id="precioEnergía"
             sx={{ m: 1, width: '25ch' }}
-            value={kgH2PerHour}
+            value={kgH2PerYear}
             helperText={''}
             type="number"
             disabled={true}
@@ -83,7 +85,7 @@ const H2Generation = () => {
           label="Consumo de agua para H2"
           id="consumoH2O"
           sx={{ m: 1, width: '25ch' }}
-          value={kgH2PerHour * 9}
+          value={kgH2PerYear * 9}
           helperText={''}
           type="number"
           disabled={true}
@@ -93,7 +95,7 @@ const H2Generation = () => {
           label="Agua de rechazo"
           id="precioEnergía"
           sx={{ m: 1, width: '25ch' }}
-          value={(kgH2PerHour * 9 * (rejection / 100)).toFixed(2)}
+          value={(kgH2PerYear * 9 * (rejection / 100)).toFixed(2)}
           helperText={''}
           type="number"
           disabled={true} leftLabel='l'
@@ -102,7 +104,7 @@ const H2Generation = () => {
           label="Agua Total Consumida"
           id="precioEnergía"
           sx={{ m: 1, width: '25ch' }}
-          value={(kgH2PerHour * 9 * (1 + rejection / 100)).toFixed(2)}
+          value={(kgH2PerYear * 9 * (1 + rejection / 100)).toFixed(2)}
           helperText={''}
           type="number"
           disabled={true} leftLabel='l'
