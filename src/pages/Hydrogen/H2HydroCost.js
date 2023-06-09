@@ -8,18 +8,9 @@ import CommonInput from '../../components/common/CommonInput/CommonInput';
 
 
 export const H2cost = () => {
-  const { electVolume, setElectVolume, solarPVPriceEstimation, technologyTypes, reePriceEstimation } = useOutletContext();
+  const { tecnologyData, setTecnologyData, energyCost, setEnergyCost, electVolume, setElectVolume, solarPVPriceEstimation, technologyTypes, reePriceEstimation } = useOutletContext();
   const technologyTypeNames = technologyTypes.map(item => item.name);
 
-  const [energyCost, setEnergyCost] = useState({ solarPowerPrice: solarPVPriceEstimation ? solarPVPriceEstimation : 120, gridPowerPrice: reePriceEstimation ? reePriceEstimation : 120, solarPowerWeight: 25, gridPowerWeight: 75, totalPriceCost: (solarPVPriceEstimation ? solarPVPriceEstimation : 120) * 25 / 100 + (reePriceEstimation ? reePriceEstimation : 120) * 75 / 100 });
-  const [tecnologyData, setTecnologyData] = useState({
-    tecnology: technologyTypes[1].name,
-    unitaryPowerCost: technologyTypes[1].unitaryPowerCost,
-    unitaryPowerCostH2: energyCost.totalPriceCost / technologyTypes[1].unitaryPowerCost / 1000,
-    capex: technologyTypes[1].capex,
-    opex: technologyTypes[1].opex,
-    annualH2Production: electVolume.anualProduction * 1000 / technologyTypes[1].unitaryPowerCost
-  });
   // const [results, setResults] = useState({
   //   unitaryPriceH2: tecnologyData.unitaryPowerCost + tecnologyData.capex * (1 + tecnologyData.opex) / (electVolume.expectationOfLife * electVolume.hourPerYearConsumption),
   //   capexTotal: electVolume.electroPower * tecnologyData.capex,
@@ -84,7 +75,6 @@ export const H2cost = () => {
         display: 'flex',
         flexDirection: 'row',
       }}>
-
         <CommonInput
           label="Precio Energía Fotovoltaica"
           id="solarPowerPrice"
@@ -237,6 +227,11 @@ export const H2cost = () => {
           onChange={() => null}
           leftLabel='EUR/kg'
         />
+        </Box>
+              <Box sx={{
+        display: 'flex',
+        flexDirection: 'row',
+      }}>
         <CommonInput
           label="CAPEX 1 MWh"
           id="capex"
