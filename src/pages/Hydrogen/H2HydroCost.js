@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import { useOutletContext } from 'react-router-dom';
 
@@ -227,8 +227,8 @@ export const H2cost = () => {
           onChange={() => null}
           leftLabel='EUR/kg'
         />
-        </Box>
-              <Box sx={{
+      </Box>
+      <Box sx={{
         display: 'flex',
         flexDirection: 'row',
       }}>
