@@ -24,7 +24,7 @@ export const PowerPrices = () => {
 
   useEffect(() => {
     date !== undefined && (async () => {
-      const response = await fetchREEPrices(date.format('DD-MM-YYYY'), dateLast.format('DD-MM-YYYY'), time0f.format('HH'), time0l.format('HH'));
+      const response = await fetchREEPrices(date.format('YYYY-MM-DD'), dateLast.format('YYYY-MM-DD'), time0f.format('HH'), time0l.format('HH'));
       if (response?.error) {
         console.log(`error: ${JSON.stringify(response.error)}`);
         setErrorMessage(response.error);
